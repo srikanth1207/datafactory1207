@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'sdatalake'"
 		},
+		"sstorage1207_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'sstorage1207'"
+		},
+		"sstorage1207a_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'sstorage1207a'"
+		},
 		"synapse_logdataparquet_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'synapse_logdataparquet'"
@@ -18,6 +26,10 @@
 		"sdatalake_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sdatalake1207.dfs.core.windows.net/"
+		},
+		"sstorage1207_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sstorage1207.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -49,11 +61,20 @@
 					"sdatalake_accountKey": {
 						"value": "[parameters('sdatalake_accountKey')]"
 					},
+					"sstorage1207_accountKey": {
+						"value": "[parameters('sstorage1207_accountKey')]"
+					},
+					"sstorage1207a_connectionString": {
+						"value": "[parameters('sstorage1207a_connectionString')]"
+					},
 					"synapse_logdataparquet_connectionString": {
 						"value": "[parameters('synapse_logdataparquet_connectionString')]"
 					},
 					"sdatalake_properties_typeProperties_url": {
 						"value": "[parameters('sdatalake_properties_typeProperties_url')]"
+					},
+					"sstorage1207_properties_typeProperties_url": {
+						"value": "[parameters('sstorage1207_properties_typeProperties_url')]"
 					}
 				}
 			},

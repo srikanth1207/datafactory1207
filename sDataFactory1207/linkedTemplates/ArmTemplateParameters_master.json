@@ -8,11 +8,20 @@
 		"sdatalake_accountKey": {
 			"value": ""
 		},
+		"sstorage1207_accountKey": {
+			"value": ""
+		},
+		"sstorage1207a_connectionString": {
+			"value": ""
+		},
 		"synapse_logdataparquet_connectionString": {
 			"value": ""
 		},
 		"sdatalake_properties_typeProperties_url": {
 			"value": "https://sdatalake1207.dfs.core.windows.net/"
+		},
+		"sstorage1207_properties_typeProperties_url": {
+			"value": "https://sstorage1207.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""

@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'sdatalake'"
 		},
+		"sstorage1207_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'sstorage1207'"
+		},
+		"sstorage1207a_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'sstorage1207a'"
+		},
 		"synapse_logdataparquet_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'synapse_logdataparquet'"
@@ -18,6 +26,10 @@
 		"sdatalake_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sdatalake1207.dfs.core.windows.net/"
+		},
+		"sstorage1207_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sstorage1207.dfs.core.windows.net/"
 		}
 	},
 	"variables": {
@@ -37,6 +49,36 @@
 						"type": "SecureString",
 						"value": "[parameters('sdatalake_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sstorage1207')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('sstorage1207_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('sstorage1207_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sstorage1207a')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('sstorage1207a_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -193,6 +235,206 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/sdatalake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/logstorage')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sstorage1207a",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "PT1H.json",
+						"container": "staging"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"time": {
+							"type": "string"
+						},
+						"resourceId": {
+							"type": "string"
+						},
+						"category": {
+							"type": "string"
+						},
+						"operationName": {
+							"type": "string"
+						},
+						"operationVersion": {
+							"type": "string"
+						},
+						"schemaVersion": {
+							"type": "string"
+						},
+						"statusCode": {
+							"type": "integer"
+						},
+						"statusText": {
+							"type": "string"
+						},
+						"durationMs": {
+							"type": "integer"
+						},
+						"callerIpAddress": {
+							"type": "string"
+						},
+						"correlationId": {
+							"type": "string"
+						},
+						"identity": {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "string"
+								},
+								"tokenHash": {
+									"type": "string"
+								},
+								"authorization": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"action": {
+												"type": "string"
+											},
+											"roleAssignmentId": {
+												"type": "string"
+											},
+											"roleDefinitionId": {
+												"type": "string"
+											},
+											"principals": {
+												"type": "array"
+											},
+											"denyAssignmentId": {
+												"type": "string"
+											},
+											"type": {
+												"type": "string"
+											},
+											"result": {
+												"type": "string"
+											},
+											"reason": {
+												"type": "string"
+											}
+										}
+									}
+								},
+								"requester": {
+									"type": "object",
+									"properties": {
+										"appId": {
+											"type": "string"
+										},
+										"audience": {
+											"type": "string"
+										},
+										"objectId": {
+											"type": "string"
+										},
+										"tenantId": {
+											"type": "string"
+										},
+										"tokenIssuer": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						},
+						"location": {
+							"type": "string"
+						},
+						"properties": {
+							"type": "object",
+							"properties": {
+								"accountName": {
+									"type": "string"
+								},
+								"serviceType": {
+									"type": "string"
+								},
+								"objectKey": {
+									"type": "string"
+								},
+								"metricResponseType": {
+									"type": "string"
+								},
+								"serverLatencyMs": {
+									"type": "integer"
+								},
+								"requestHeaderSize": {
+									"type": "integer"
+								},
+								"responseHeaderSize": {
+									"type": "integer"
+								},
+								"responseBodySize": {
+									"type": "integer"
+								},
+								"tlsVersion": {
+									"type": "string"
+								},
+								"etag": {
+									"type": "string"
+								},
+								"lastModifiedTime": {
+									"type": "string"
+								},
+								"userAgentHeader": {
+									"type": "string"
+								}
+							}
+						},
+						"uri": {
+							"type": "string"
+						},
+						"protocol": {
+							"type": "string"
+						},
+						"resourceType": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sstorage1207a')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/stagingoutputsstorage1207')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sstorage1207a",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "stagingoutput"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sstorage1207a')]"
 			]
 		},
 		{
@@ -399,6 +641,126 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/logdatacsv')]",
 				"[concat(variables('factoryId'), '/datasets/logdata_synapse')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/logdata_storage')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "logstorage",
+								"type": "DatasetReference"
+							},
+							"name": "logdata"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "stagingoutputsstorage1207",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          time as string,",
+						"          resourceId as string,",
+						"          category as string,",
+						"          operationName as string,",
+						"          operationVersion as string,",
+						"          schemaVersion as string,",
+						"          statusCode as integer,",
+						"          statusText as string,",
+						"          durationMs as integer,",
+						"          callerIpAddress as string,",
+						"          correlationId as string,",
+						"          identity as (type as string, tokenHash as string, authorization as (action as string, roleAssignmentId as string, roleDefinitionId as string, principals as string[], denyAssignmentId as string, type as string, result as string, reason as string)[], requester as (appId as string, audience as string, objectId as string, tenantId as string, tokenIssuer as string)),",
+						"          location as string,",
+						"          properties as (accountName as string, serviceType as string, objectKey as string, metricResponseType as string, serverLatencyMs as integer, requestHeaderSize as integer, responseHeaderSize as integer, responseBodySize as integer, tlsVersion as string, etag as string, lastModifiedTime as string, userAgentHeader as string),",
+						"          uri as string,",
+						"          protocol as string,",
+						"          resourceType as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine') ~> logdata",
+						"logdata select(mapColumn(",
+						"          time,",
+						"          resourceId,",
+						"          category",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/logstorage')]",
+				"[concat(variables('factoryId'), '/datasets/stagingoutputsstorage1207')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/logdata_storage_metrics')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "logdata_storage",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"logdata": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/logdata_storage')]"
 			]
 		}
 	]
