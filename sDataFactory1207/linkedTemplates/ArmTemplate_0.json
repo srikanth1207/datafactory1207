@@ -840,7 +840,46 @@
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false
 							},
-							"enableStaging": false
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "sdatalake",
+									"type": "LinkedServiceReference"
+								},
+								"path": "staging"
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['time']"
+										},
+										"sink": {
+											"name": "time",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['resourceId']"
+										},
+										"sink": {
+											"name": "resourceid",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['category']"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									}
+								]
+							}
 						},
 						"inputs": [
 							{
@@ -867,7 +906,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/logdata_storage')]",
 				"[concat(variables('factoryId'), '/datasets/stagingoutputsstorage1207')]",
-				"[concat(variables('factoryId'), '/datasets/logdata_metrics')]"
+				"[concat(variables('factoryId'), '/datasets/logdata_metrics')]",
+				"[concat(variables('factoryId'), '/linkedServices/sdatalake')]"
 			]
 		}
 	]
