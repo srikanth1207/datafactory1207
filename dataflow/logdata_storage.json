@@ -49,6 +49,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
+				"     purgeFiles: true,",
 				"     documentForm: 'documentPerLine') ~> logdata",
 				"logdata select(mapColumn(",
 				"          time,",
