@@ -63,7 +63,39 @@
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['time']"
+								},
+								"sink": {
+									"name": "time",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['resourceId']"
+								},
+								"sink": {
+									"name": "resourceid",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['category']"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
