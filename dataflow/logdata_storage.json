@@ -1,0 +1,67 @@
+{
+	"name": "logdata_storage",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "logstorage",
+						"type": "DatasetReference"
+					},
+					"name": "logdata"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "stagingoutputsstorage1207",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          time as string,",
+				"          resourceId as string,",
+				"          category as string,",
+				"          operationName as string,",
+				"          operationVersion as string,",
+				"          schemaVersion as string,",
+				"          statusCode as integer,",
+				"          statusText as string,",
+				"          durationMs as integer,",
+				"          callerIpAddress as string,",
+				"          correlationId as string,",
+				"          identity as (type as string, tokenHash as string, authorization as (action as string, roleAssignmentId as string, roleDefinitionId as string, principals as string[], denyAssignmentId as string, type as string, result as string, reason as string)[], requester as (appId as string, audience as string, objectId as string, tenantId as string, tokenIssuer as string)),",
+				"          location as string,",
+				"          properties as (accountName as string, serviceType as string, objectKey as string, metricResponseType as string, serverLatencyMs as integer, requestHeaderSize as integer, responseHeaderSize as integer, responseBodySize as integer, tlsVersion as string, etag as string, lastModifiedTime as string, userAgentHeader as string),",
+				"          uri as string,",
+				"          protocol as string,",
+				"          resourceType as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> logdata",
+				"logdata select(mapColumn(",
+				"          time,",
+				"          resourceId,",
+				"          category",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

@@ -1,0 +1,172 @@
+{
+	"name": "logstorage",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sstorage1207a",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "PT1H.json",
+				"container": "staging"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"time": {
+					"type": "string"
+				},
+				"resourceId": {
+					"type": "string"
+				},
+				"category": {
+					"type": "string"
+				},
+				"operationName": {
+					"type": "string"
+				},
+				"operationVersion": {
+					"type": "string"
+				},
+				"schemaVersion": {
+					"type": "string"
+				},
+				"statusCode": {
+					"type": "integer"
+				},
+				"statusText": {
+					"type": "string"
+				},
+				"durationMs": {
+					"type": "integer"
+				},
+				"callerIpAddress": {
+					"type": "string"
+				},
+				"correlationId": {
+					"type": "string"
+				},
+				"identity": {
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string"
+						},
+						"tokenHash": {
+							"type": "string"
+						},
+						"authorization": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"action": {
+										"type": "string"
+									},
+									"roleAssignmentId": {
+										"type": "string"
+									},
+									"roleDefinitionId": {
+										"type": "string"
+									},
+									"principals": {
+										"type": "array"
+									},
+									"denyAssignmentId": {
+										"type": "string"
+									},
+									"type": {
+										"type": "string"
+									},
+									"result": {
+										"type": "string"
+									},
+									"reason": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"requester": {
+							"type": "object",
+							"properties": {
+								"appId": {
+									"type": "string"
+								},
+								"audience": {
+									"type": "string"
+								},
+								"objectId": {
+									"type": "string"
+								},
+								"tenantId": {
+									"type": "string"
+								},
+								"tokenIssuer": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"location": {
+					"type": "string"
+				},
+				"properties": {
+					"type": "object",
+					"properties": {
+						"accountName": {
+							"type": "string"
+						},
+						"serviceType": {
+							"type": "string"
+						},
+						"objectKey": {
+							"type": "string"
+						},
+						"metricResponseType": {
+							"type": "string"
+						},
+						"serverLatencyMs": {
+							"type": "integer"
+						},
+						"requestHeaderSize": {
+							"type": "integer"
+						},
+						"responseHeaderSize": {
+							"type": "integer"
+						},
+						"responseBodySize": {
+							"type": "integer"
+						},
+						"tlsVersion": {
+							"type": "string"
+						},
+						"etag": {
+							"type": "string"
+						},
+						"lastModifiedTime": {
+							"type": "string"
+						},
+						"userAgentHeader": {
+							"type": "string"
+						}
+					}
+				},
+				"uri": {
+					"type": "string"
+				},
+				"protocol": {
+					"type": "string"
+				},
+				"resourceType": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
