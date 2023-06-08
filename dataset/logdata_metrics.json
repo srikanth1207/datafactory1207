@@ -1,0 +1,29 @@
+{
+	"name": "logdata_metrics",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "logdata_metrics_sdatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "time",
+				"type": "varchar"
+			},
+			{
+				"name": "resourceid",
+				"type": "varchar"
+			},
+			{
+				"name": "category",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "logdata_metrics"
+		}
+	}
+}
