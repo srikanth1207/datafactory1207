@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "sDataFactory1207"
 		},
+		"logdata_metrics_sdatabase_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'logdata_metrics_sdatabase'"
+		},
 		"sdatalake_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'sdatalake'"
@@ -277,6 +281,60 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "logdata_metrics",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Data flow1",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*.json",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "stagingoutputsstorage1207",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "logdata_metrics",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -286,7 +344,43 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/logdata_storage')]"
+				"[concat(variables('factoryId'), '/dataflows/logdata_storage')]",
+				"[concat(variables('factoryId'), '/datasets/stagingoutputsstorage1207')]",
+				"[concat(variables('factoryId'), '/datasets/logdata_metrics')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/logdata_metrics')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "logdata_metrics_sdatabase",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "time",
+						"type": "varchar"
+					},
+					{
+						"name": "resourceid",
+						"type": "varchar"
+					},
+					{
+						"name": "category",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "logdata_metrics"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/logdata_metrics_sdatabase')]"
 			]
 		},
 		{
@@ -629,6 +723,19 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/sstorage1207a')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/logdata_metrics_sdatabase')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('logdata_metrics_sdatabase_connectionString')]"
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/sdatalake')]",

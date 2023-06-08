@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "sDataFactory1207"
 		},
+		"logdata_metrics_sdatabase_connectionString": {
+			"value": ""
+		},
 		"sdatalake_accountKey": {
 			"value": ""
 		},

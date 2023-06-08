@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "sDataFactory1207"
 		},
+		"logdata_metrics_sdatabase_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'logdata_metrics_sdatabase'"
+		},
 		"sdatalake_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'sdatalake'"
@@ -57,6 +61,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"logdata_metrics_sdatabase_connectionString": {
+						"value": "[parameters('logdata_metrics_sdatabase_connectionString')]"
 					},
 					"sdatalake_accountKey": {
 						"value": "[parameters('sdatalake_accountKey')]"
