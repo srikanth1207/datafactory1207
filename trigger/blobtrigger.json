@@ -1,0 +1,25 @@
+{
+	"name": "blobtrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "logdata_storage_metrics",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/stagingoutput/blobs/PT1H",
+			"ignoreEmptyBlobs": false,
+			"scope": "/subscriptions/9ead8410-20b6-4ea4-a404-490f02a7f2a4/resourceGroups/sresource1207/providers/Microsoft.Storage/storageAccounts/sstorage1207",
+			"events": [
+				"Microsoft.Storage.BlobCreated",
+				"Microsoft.Storage.BlobDeleted"
+			]
+		}
+	}
+}
