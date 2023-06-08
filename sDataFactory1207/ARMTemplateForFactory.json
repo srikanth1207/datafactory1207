@@ -34,6 +34,10 @@
 		"sstorage1207_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sstorage1207.dfs.core.windows.net/"
+		},
+		"blobtrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/9ead8410-20b6-4ea4-a404-490f02a7f2a4/resourceGroups/sresource1207/providers/Microsoft.Storage/storageAccounts/sstorage1207"
 		}
 	},
 	"variables": {
@@ -943,6 +947,37 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/logstorage')]",
 				"[concat(variables('factoryId'), '/datasets/stagingoutputsstorage1207')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blobtrigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "logdata_storage_metrics",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/stagingoutput/blobs/PT1H",
+					"ignoreEmptyBlobs": false,
+					"scope": "[parameters('blobtrigger_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated",
+						"Microsoft.Storage.BlobDeleted"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/logdata_storage_metrics')]"
 			]
 		}
 	]

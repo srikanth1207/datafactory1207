@@ -35,6 +35,10 @@
 			"type": "string",
 			"defaultValue": "https://sstorage1207.dfs.core.windows.net/"
 		},
+		"blobtrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/9ead8410-20b6-4ea4-a404-490f02a7f2a4/resourceGroups/sresource1207/providers/Microsoft.Storage/storageAccounts/sstorage1207"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -82,6 +86,9 @@
 					},
 					"sstorage1207_properties_typeProperties_url": {
 						"value": "[parameters('sstorage1207_properties_typeProperties_url')]"
+					},
+					"blobtrigger_properties_typeProperties_scope": {
+						"value": "[parameters('blobtrigger_properties_typeProperties_scope')]"
 					}
 				}
 			},
